@@ -10,9 +10,7 @@ const SuspenseComponent = (Component: LazyExoticComponent<any>) => (props: any) 
     )
 }
 
-const RecommendComponent = lazy(() =>
-    import("../views/recommend").then(({RecommendComponent}) => ({default: RecommendComponent})),
-);
+const RecommendComponent = lazy(() => import("../views/recommend"));
 
 
 export default [

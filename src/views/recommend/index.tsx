@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Recommend = () => {
+function Recommend() {
     return (
         <div>
             Recommend
@@ -9,4 +9,4 @@ export const Recommend = () => {
 }
 
 
-
+export default Recommend as React.FC;
