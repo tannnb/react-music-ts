@@ -1,14 +1,13 @@
 import React from 'react';
 import {renderRoutes} from 'react-router-config';
-import {HashRouter} from 'react-router-dom';
+import {BrowserRouter} from 'react-router-dom';
 import routes from './routers'
 
-
-function App() {
+const App: React.FC = () => {
     return (
-        <HashRouter>
+        <BrowserRouter>
             {renderRoutes(routes)}
-        </HashRouter>
+        </BrowserRouter>
     );
 }
 
