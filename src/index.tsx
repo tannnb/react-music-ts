@@ -6,7 +6,7 @@ import ErrorBoundary from './base/ErrorBoundary'
 import * as serviceWorker from './serviceWorker';
 
 import 'normalize.css'
-import './assets/style/common.scss'
+import './assets/style/index.scss'
 
 ReactDOM.render(
     <ErrorBoundary>
