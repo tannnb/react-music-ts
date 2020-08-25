@@ -1,14 +1,25 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {RouteConfigComponentProps} from "react-router-config";
 import CounterContainer from '../../store/container'
 import NavBar from "../../base/NavBar";
 import Tabbar from "../../base/Tabbar";
+import {getBannerRequest} from "../../api/recommend";
 
-const recommend: React.FC<RouteConfigComponentProps> = props => {
+
+const Recommend: React.FC<RouteConfigComponentProps> = props => {
     let {count, increment} = CounterContainer.useContainer()
+    const [banners, setBanners] = useState<any>()
+
+    useEffect(() => {
+        const getBanner = async () => {
+            let {banners} = await getBannerRequest() as any
+            setBanners(banners)
+        }
+        getBanner()
+    }, [])
 
     const handleBack = () => {
-        console.log('2e')
+
     }
 
     return (
@@ -26,4 +37,4 @@ const recommend: React.FC<RouteConfigComponentProps> = props => {
     )
 }
 
-export default recommend
+export default Recommend
