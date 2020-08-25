@@ -21,6 +21,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "sass-loader": "^9.0.3",
+    "swiper": "^6.1.2",
     "typescript": "~3.7.2",
     "unstated-next": "^1.1.0"
   },
@@ -46,7 +47,9 @@
       "last 1 safari version"
     ]
   },
-  "plugins": ["react-hooks"],
+  "plugins": [
+    "react-hooks"
+  ],
   "rules": {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn"

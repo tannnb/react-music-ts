@@ -1,0 +1,22 @@
+.Slider-wrapper {
+  margin: 4px 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  .slider-container{
+    position: relative;
+    .swiper-pagination{
+      position: absolute;
+      left: 0;
+      bottom: 5px;
+      .swiper-pagination-bullet-active{
+        background: #ec4e3d;
+      }
+    }
+  }
+  .swiper-slide{
+    img {
+      width: 100%;
+      vertical-align: top;
+    }
+  }
+}
