@@ -3,32 +3,43 @@ import Swiper from 'swiper'
 import 'swiper/swiper-bundle.min.css'
 import './index.scss'
 
+interface BannerProps {
+    loop?: boolean;
+    autoplay?: object;
+    banner: { [key: string]: any }[];
+    onSelect?: (e: React.MouseEvent) => void
+}
 
-function Slider(props: any) {
-    const {banner} = props
+const Slider: React.FC<BannerProps> = (props) => {
+    const {banner, loop, autoplay, onSelect} = props
 
     useEffect(() => {
-        if (banner.length) {
+        if (banner!.length) {
             new Swiper('.slider-container', {
-                loop: true,
-                autoplay: {
-                    delay: 3000,
-                    disableOnInteraction: false,
-                },
+                loop,
+                autoplay,
                 pagination: {el: '.swiper-pagination'},
             })
         }
-    }, [banner])
+    }, [autoplay, banner, loop])
+
+
+    const handleSwiperClick = (data: any) => {
+        if (onSelect) {
+            onSelect(data)
+        }
+    }
 
     return (
         <div className="Slider-wrapper">
             <div className="slider-container">
                 <div className="swiper-wrapper">
-                    {banner.map((slider: any) => {
+                    {banner!.map(slider => {
                         return (
-                            <div className="swiper-slide" key={slider.imageUrl}>
+                            <div className="swiper-slide" onClick={() => handleSwiperClick(slider)}
+                                 key={slider.imageUrl}>
                                 <div className="slider-nav">
-                                    <img src={slider.imageUrl} alt="推荐"/>
+                                    <img src={slider.imageUrl} alt={slider.typeTitle}/>
                                 </div>
                             </div>
                         )
@@ -38,6 +49,13 @@ function Slider(props: any) {
             </div>
         </div>
     )
+}
+Slider.defaultProps = {
+    loop: true,
+    autoplay: {
+        delay: 3000,
+        disableOnInteraction: false
+    }
 }
 
 export default React.memo(Slider)
