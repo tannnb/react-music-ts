@@ -45,7 +45,7 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
         let scroll = new BScroll(scrollContentRef.current!, {
             scrollX: direction === 'horizontal',
             scrollY: direction === 'vertical',
-            probeType: 2,
+            probeType: 3,
             click: click,
             bounce: {
                 top: bounceTop,
