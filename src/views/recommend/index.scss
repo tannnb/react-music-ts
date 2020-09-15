@@ -1,6 +1,6 @@
 .quickEntry-wrapper {
   .enterItem {
-    padding: 10px 20px;
+    padding: 10px 16px;
     display: inline-block;
     text-align: center;
     color: white;
@@ -9,12 +9,12 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 60px;
-      height: 60px;
-      border-radius: 60px;
-      background: #2d2d2d;
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+      background: linear-gradient(to right top, #ff654b, #f13b30);
       i {
-        color: #ec4c44;
+        color: #fff;
         font-size: 30px;
       }
     }
@@ -22,7 +22,7 @@
     .label {
       padding-top: 10px;
       font-size: 13px;
-      color: #d0cfd0;
+      color: #696869;
     }
   }
 }

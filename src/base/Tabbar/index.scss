@@ -12,16 +12,22 @@
     color: #a3a4a4;
     -webkit-tap-highlight-color:rgba(240,240,240,0.1);
     &__icon {
-      padding: 5px;
+      padding: 5px 5px 3px 5px;
       font-size: 16px;
+      svg {
+        vertical-align: middle;
+      }
     }
     &__text {
-      font-size: 12px;
+      font-size: 13px;
       line-height: 1;
 
     }
     &.active {
       color: #ec4e3d;
+      path {
+        stroke: #ec4e3d;
+      }
     }
   }
 }

@@ -1,23 +1,16 @@
-import React, {
-    forwardRef,
-    useState,
-    useEffect,
-    useRef,
-    useImperativeHandle
-} from 'react'
-import BScroll from '@better-scroll/core'
+import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react'
+import BScroll, {BScrollInstance} from '@better-scroll/core'
 
 let scrollStyle = {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
 }
-type directionType = 'vertical' | 'horizontal'
 type RefProps = {}
 
 interface ScrollProps {
     style?: object;
-    direction: directionType;
+    direction?: 'vertical' | 'horizontal';
     click?: boolean;
     refresh?: boolean;
     onScroll?: (e: any) => void;
@@ -28,21 +21,30 @@ interface ScrollProps {
     bounceTop?: boolean;
     bounceBottom?: boolean;
     stopPropagation?: boolean;
+    children: React.ReactNode
 }
 
-
 const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
-    const {direction, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll} = props
+    const {
+        direction = 'vertical',
+        click = true,
+        refresh = true,
+        bounceTop = true,
+        bounceBottom = true,
+        pullUp,
+        pullDown,
+        onScroll
+    } = props
 
-    const [scroll, setScroll] = useState()
-    const scrollContentRef = useRef<HTMLDivElement>(null)
-    const scrollInternalRef = useRef<HTMLDivElement>(null)
+    const [scroll, setScroll] = useState<BScrollInstance | null>(null)
+    const scrollContentRef = useRef<HTMLDivElement | null>(null)
+    const scrollInternalRef = useRef(null)
 
     /**
      * 初始化BScroll实例
      */
     useEffect(() => {
-        let scroll = new BScroll(scrollContentRef.current!, {
+        let scrolls = new BScroll(scrollContentRef.current!, {
             scrollX: direction === 'horizontal',
             scrollY: direction === 'vertical',
             probeType: 3,
@@ -52,11 +54,11 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
                 bottom: bounceBottom,
             },
         })
-        setScroll(scroll)
+        setScroll(scrolls)
         return () => {
             setScroll(null)
         }
-    }, [])
+    }, [setScroll])
 
     /**
      * 刷新
@@ -68,8 +70,8 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
     })
 
     /**
-    * 上拉
-    */
+     * 上拉
+     */
     useEffect(() => {
         if (!pullUp || !scroll) {
             return
@@ -86,8 +88,8 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
     }, [scroll, pullUp])
 
     /**
-    * 下拉
-    */
+     * 下拉
+     */
     useEffect(() => {
         if (!pullDown || !scroll) {
             return
@@ -127,10 +129,10 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
             }
         },
         getBSInstance() {
-            return scroll || null
+            if(scroll) return scroll
         },
         getBSWrapper() {
-            return scrollInternalRef || null
+            if(scrollInternalRef) return scrollInternalRef
         },
     }))
 
@@ -140,17 +142,6 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
         </div>
     )
 })
-
-Scroll.defaultProps = {
-    direction: 'vertical', // 滚动方向
-    click: true, // 是否支持点击
-    refresh: true, // 是否刷新
-    pullUpLoading: false, // 上拉加载
-    pullDownLoading: false, // 下拉加载
-    bounceTop: true, // 是否支持向上吸顶
-    bounceBottom: true, // 是否支持向下吸顶
-    stopPropagation: false, // 阻止冒泡,用于嵌套
-}
 
 export default Scroll
 

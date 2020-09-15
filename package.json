@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@better-scroll/core": "^2.0.3",
+    "@icon-park/react": "^1.0.9",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
@@ -15,6 +16,7 @@
     "@types/react-router-dom": "^5.1.5",
     "axios": "^0.19.2",
     "better-scroll": "^1.15.2",
+    "classnames": "^2.2.6",
     "eslint-plugin-react-hooks": "^4.1.2",
     "node-sass": "^4.14.1",
     "normalize.css": "^8.0.1",

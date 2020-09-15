@@ -1,5 +1,6 @@
 import React from 'react'
 import './index.scss'
+import {Search} from '@icon-park/react'
 
 
 interface NavBarInter {
@@ -22,7 +23,9 @@ const NavBar: React.FC<NavBarInter> = props => {
         <div className='NavBar'>
             {back ? renderBack() : null}
             <div className='NavBar_item NavBar_center'>{title}</div>
-            <div className='NavBar_item NavBar_right'>右侧</div>
+            <div className='NavBar_item NavBar_right'>
+                <Search theme="outline" size="19" fill="#a0a0a0"/>
+            </div>
         </div>
     )
 }

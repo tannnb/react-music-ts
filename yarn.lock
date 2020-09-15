@@ -1212,6 +1212,11 @@
   dependencies:
     "@hapi/hoek" "^8.3.0"
 
+"@icon-park/react@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.npm.taobao.org/@icon-park/react/download/@icon-park/react-1.0.9.tgz#c2db0f0a4e21cff2d6750df1e9993564c398ce8e"
+  integrity sha1-wtsPCk4hz/LWdQ3x6Zk1ZMOYzo4=
+
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"
   resolved "https://registry.npm.taobao.org/@jest/console/download/@jest/console-24.9.0.tgz?cache=0&sync_timestamp=1597057435094&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40jest%2Fconsole%2Fdownload%2F%40jest%2Fconsole-24.9.0.tgz#79b1bc06fb74a8cfb01cbdedf945584b1b9707f0"
@@ -3081,6 +3086,11 @@ class-utils@^0.3.5:
     define-property "^0.2.5"
     isobject "^3.0.0"
     static-extend "^0.1.1"
+
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.npm.taobao.org/classnames/download/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
+  integrity sha1-Q5Nb/90pHzJtrQogUwmzjQD2UM4=
 
 clean-css@^4.2.3:
   version "4.2.3"

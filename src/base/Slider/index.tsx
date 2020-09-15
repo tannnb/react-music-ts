@@ -1,7 +1,9 @@
 import React, {useEffect} from 'react'
-import Swiper from 'swiper'
-import 'swiper/swiper-bundle.min.css'
+import Swiper, {Pagination, Autoplay} from 'swiper'
+import 'swiper/swiper-bundle.css';
 import './index.scss'
+
+Swiper.use([Pagination, Autoplay])
 
 interface BannerProps {
     loop?: boolean;
@@ -11,20 +13,26 @@ interface BannerProps {
 }
 
 const Slider: React.FC<BannerProps> = (props) => {
-    const {banner, loop, autoplay, onSelect} = props
-
+    const {banner, loop = true, onSelect} = props
     useEffect(() => {
         if (banner!.length) {
             new Swiper('.slider-container', {
                 loop,
-                autoplay,
-                pagination: {el: '.swiper-pagination'},
+                speed: 400,
+                spaceBetween: 100,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                },
             })
         }
-    }, [autoplay, banner, loop])
+    }, [banner, loop])
 
 
-    const handleSwiperClick = (data: any) => {
+    const handleSwiperClick = (data: React.MouseEvent) => {
         if (onSelect) {
             onSelect(data)
         }
@@ -36,10 +44,10 @@ const Slider: React.FC<BannerProps> = (props) => {
                 <div className="swiper-wrapper">
                     {banner!.map(slider => {
                         return (
-                            <div className="swiper-slide" onClick={() => handleSwiperClick(slider)}
+                            <div className="swiper-slide" onClick={() => handleSwiperClick(slider as React.MouseEvent)}
                                  key={slider.imageUrl}>
                                 <div className="slider-nav">
-                                    <img src={slider.imageUrl} alt={slider.typeTitle}/>
+                                    <img className="swiper-lazy" src={slider.imageUrl} alt={slider.typeTitle}/>
                                 </div>
                             </div>
                         )
@@ -49,13 +57,6 @@ const Slider: React.FC<BannerProps> = (props) => {
             </div>
         </div>
     )
-}
-Slider.defaultProps = {
-    loop: true,
-    autoplay: {
-        delay: 3000,
-        disableOnInteraction: false
-    }
 }
 
 export default React.memo(Slider)
