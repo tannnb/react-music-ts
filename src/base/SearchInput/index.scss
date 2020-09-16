@@ -1,5 +1,4 @@
 .search-wrapper-input {
-  position: relative;
   flex: 1;
   display: inline-flex;
   justify-content: center;
@@ -19,11 +18,12 @@
   .oInput {
     flex: 1;
     color: #454545;
-    padding: 0 10px;
-    line-height: 36px;
+    padding: 8px 10px;
+    line-height: 20px;
     background: transparent;
     outline: none;
     border: none;
+    vertical-align: middle;
     font-size: 14px;
   }
   .icon {

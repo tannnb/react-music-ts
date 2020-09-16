@@ -79,13 +79,13 @@ const Recommend: React.FC<RecommendType> = props => {
     useEffect(() => {
         let categoryDOM = entryRef.current?.getBSWrapper().current
         let tagElements = categoryDOM.querySelectorAll('.enterItem')
-        let totalWidth = 0
+        let totalWidth = 10
         Array.from(tagElements).forEach((ele: any) => {
             totalWidth += ele.offsetWidth
         })
         categoryDOM.style.width = `${totalWidth}px`
         entryRef.current.refresh()
-    }, [iconData])
+    }, [iconData,banner])
 
     const handleSearch = () => {
         props.history.push('/hotSearch')

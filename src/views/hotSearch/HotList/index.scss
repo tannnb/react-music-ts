@@ -8,12 +8,13 @@
   .item {
     position: relative;
     width: 50%;
-    padding: 8px 14px 8px 24px;
+    padding: 8px 8px 8px 24px;
     box-sizing: border-box;
 
     .label {
       padding-left: 10px;
       color: #232323;
+      font-size: 14px;
       @include textEllipsis;
       .SUCCESS,.DANGER{
         font-size: 12px;
@@ -30,7 +31,7 @@
 
     .value {
       padding: 8px 10px;
-      font-size: 10px;
+      font-size: 11px;
       color: #9e9e9e;
       @include textEllipsis;
     }

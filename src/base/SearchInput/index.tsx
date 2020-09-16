@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import {debounce} from 'lodash'
 import {CloseOne, Search} from "@icon-park/react";
 import useSearch from "../../hook/useSearch";
+import './index.scss'
 
 interface SearchInputProps {
     onChange?: (e: string) => void;
