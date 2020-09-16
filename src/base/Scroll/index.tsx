@@ -21,6 +21,7 @@ interface ScrollProps {
     bounceTop?: boolean;
     bounceBottom?: boolean;
     stopPropagation?: boolean;
+    className?:any;
     children: React.ReactNode
 }
 
@@ -33,7 +34,8 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
         bounceBottom = true,
         pullUp,
         pullDown,
-        onScroll
+        onScroll,
+        className
     } = props
 
     const [scroll, setScroll] = useState<BScrollInstance | null>(null)
@@ -137,7 +139,7 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
     }))
 
     return (
-        <div style={scrollStyle} ref={scrollContentRef}>
+        <div style={scrollStyle} ref={scrollContentRef} className={className}>
             <div ref={scrollInternalRef}>{props.children}</div>
         </div>
     )

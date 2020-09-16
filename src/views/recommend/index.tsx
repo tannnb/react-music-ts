@@ -1,12 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react'
+import {RouteComponentProps} from "react-router-dom";
+import {getBannerRequest} from "../../api/Request";
 import NavBar from "../../base/NavBar";
 import Tabbar from "../../base/Tabbar";
 import Slider from '../../base/Slider'
 import Scroll from '../../base/Scroll'
 import QuickEntry from "./QuickEntry";
 import './index.scss'
+import CounterContainer from '../../store/container'
 
-import {getBannerRequest} from "../../api/recommend";
+interface RecommendProps {
+}
+
+type RecommendType = RecommendProps & RouteComponentProps
 
 let quickData = [
     {
@@ -50,15 +56,18 @@ let quickData = [
         label: "唱聊"
     },
 ]
-const Recommend = () => {
+const Recommend: React.FC<RecommendType> = props => {
 
-    const [banners, setBanners] = useState([])
+    const {banner, dispatchBanner} = CounterContainer.useContainer()
+
     useEffect(() => {
-        const getBanner = async () => {
-            let {banners} = await getBannerRequest() as any
-            setBanners(banners)
+        if(banner && banner.length === 0) {
+            const getBanner = async () => {
+                let {banners} = await getBannerRequest() as any
+                dispatchBanner(banners)
+            }
+            getBanner()
         }
-        getBanner()
     }, [])
 
     const [iconData] = useState(quickData)
@@ -78,7 +87,8 @@ const Recommend = () => {
         entryRef.current.refresh()
     }, [iconData])
 
-    const handleBack = () => {
+    const handleSearch = () => {
+        props.history.push('/hotSearch')
     }
 
     const pullUpFc = (e: React.TouchEvent) => {
@@ -94,11 +104,12 @@ const Recommend = () => {
 
     return (
         <div className='app_wrapper'>
-            <NavBar back={false} leftClick={handleBack}/>
+            <NavBar rightClick={handleSearch}>Muisc</NavBar>
             <div className='body_wrapper'>
-                <Scroll onScroll={(pos: React.WheelEvent) => onScroll(pos)} pullUp={(pos: React.TouchEvent) => pullUpFc(pos)}>
+                <Scroll onScroll={(pos: React.WheelEvent) => onScroll(pos)}
+                        pullUp={(pos: React.TouchEvent) => pullUpFc(pos)}>
 
-                    {banners && <Slider banner={banners}/>}
+                    {banner && <Slider banner={banner}/>}
 
                     <div className='quickEntry-wrapper'>
                         <Scroll ref={entryRef} direction={'horizontal'}>

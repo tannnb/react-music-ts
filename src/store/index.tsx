@@ -12,4 +12,4 @@ function compose(...containers: any) {
 const Provider = compose(
     CounterContainer
 )
-export default  Provider
+export default Provider

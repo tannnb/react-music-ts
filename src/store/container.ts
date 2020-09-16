@@ -1,12 +1,10 @@
-import { useState} from "react"
+import {useCallback, useState} from "react"
 import {createContainer} from "unstated-next"
 
-function useCounter(initialState = 0) {
-    let [count, setCount] = useState<number>(initialState)
-
-    let decrement = () => setCount(count => count - 1)
-    let increment = () => setCount(count => count + 1)
-    return {count, decrement, increment}
+function useCounter() {
+    let [banner, setBanner] = useState<Array<object> | any>([])
+    let dispatchBanner = useCallback(data => setBanner(data), [])
+    return {banner, dispatchBanner}
 }
 
 let CounterContainer = createContainer(useCounter)

@@ -1,0 +1,83 @@
+@import "../../assets/style/mixin";
+.search-page {
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+
+  .search-wrapper {
+    height: 52px;
+    display: flex;
+    padding: 10px 20px;
+    align-items: center;
+
+    &-input {
+      position: relative;
+      flex: 1;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 32px;
+      background: #f7f7f7;
+      color: #5d5c5c;
+
+      i {
+        width: 30px;
+        text-align: center;
+        color: white;
+        font-size: 16px;
+      }
+
+      .oInput {
+        flex: 1;
+        color: #454545;
+        padding: 0 10px;
+        line-height: 36px;
+        background: transparent;
+        outline: none;
+        border: none;
+        font-size: 14px;
+      }
+      .icon {
+        position: absolute;
+        top: 8px;
+        right: 5px;
+        color: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    &-cancel {
+      width: 56px;
+      text-align: center;
+      color: #070707;
+    }
+    &-singer {
+      @include extendClick
+    }
+  }
+  .search-scroll{
+    flex: 1;
+  }
+
+  .advertising-wrapper {
+    color: white;
+    height: 70px;
+    margin: 10px;
+    border-radius: 6px;
+    overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      vertical-align: top;
+    }
+  }
+
+  .hot-title {
+    padding: 10px 20px;
+    font-size: 20px;
+    color: #000;
+  }
+}

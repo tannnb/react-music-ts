@@ -11,6 +11,7 @@ const SuspenseComponent = (Component: LazyExoticComponent<any>) => (props: any) 
 }
 
 const RecommendComponent = lazy(() => import("../views/recommend"));
+const HotSearchComponent = lazy(() => import("../views/hotSearch"));
 
 
 export default [
@@ -22,5 +23,9 @@ export default [
     {
         path: '/recommend',
         component: SuspenseComponent(RecommendComponent)
+    },
+    {
+        path: '/hotSearch',
+        component: SuspenseComponent(HotSearchComponent)
     },
 ]
