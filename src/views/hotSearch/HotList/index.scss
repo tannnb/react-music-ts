@@ -30,7 +30,7 @@
     }
 
     .value {
-      padding: 8px 10px;
+      padding: 6px 10px;
       font-size: 11px;
       color: #9e9e9e;
       @include textEllipsis;
@@ -38,14 +38,24 @@
 
     .currentRanking {
       position: absolute;
-      top: 23px;
-      left: 10px;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      border-radius: 30px;
+      top: 16px;
+      left: 6px;
       color: #666;
       text-align: center;
-      font-size: 17px;
+      font-size: 14px;
+      background: #f3f3f3;
       &.active {
-        color: #eb4c44;
+        color: #FFF;
+        font-size: 15px;
+        background: #eb4c44;
       }
+    }
+    &:active{
+      @include highlight
     }
   }
 }

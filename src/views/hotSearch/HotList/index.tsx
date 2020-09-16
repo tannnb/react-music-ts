@@ -32,7 +32,7 @@ const HotList: React.FC<HotListProps> = props => {
                     <div className='item' key={item.score} onClick={() => handleItemClick(item)}>
                         <div className='label'>{item.searchWord} {renderType(item)}</div>
                         <div className='value'>{item.content}</div>
-                        <div className={classes('currentRanking', {'active': index + 1 <= 4})}>{index + 1}</div>
+                        <div className={classes('currentRanking', {'active': index + 1 <= 3})}>{index + 1}</div>
                     </div>
                 ))
             }
