@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react'
+import classes from 'classnames'
 import Swiper, {Pagination, Autoplay} from 'swiper'
 import 'swiper/swiper-bundle.css';
 import './index.scss'
@@ -48,6 +49,7 @@ const Slider: React.FC<BannerProps> = (props) => {
                                  key={slider.imageUrl}>
                                 <div className="slider-nav">
                                     <img className="swiper-lazy" src={slider.imageUrl} alt={slider.typeTitle}/>
+                                    <span className={classes('tag', `${slider.titleColor}`)}>{slider.typeTitle}</span>
                                 </div>
                             </div>
                         )

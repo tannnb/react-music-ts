@@ -15,9 +15,33 @@
     }
   }
   .swiper-slide{
-    img {
-      width: 100%;
-      vertical-align: top;
+    .slider-nav {
+      position: relative;
+      border-radius: 6px;
+      overflow: hidden;
+      img {
+        width: 100%;
+        vertical-align: top;
+      }
+      .tag {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 10;
+        font-size: 10px;
+        padding: 4px 8px;
+        &.blue {
+          color: white;
+          background: #5aa3ee;
+          border-radius: 10px 0 0 0;
+        }
+        &.red {
+          color: white;
+          background: #e55f4e;
+          border-radius: 10px 0 0 0;
+        }
+      }
     }
+
   }
 }
