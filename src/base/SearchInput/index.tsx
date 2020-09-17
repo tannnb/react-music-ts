@@ -10,18 +10,19 @@ interface SearchInputProps {
 }
 
 const SearchInput: React.FC<SearchInputProps> = props => {
-    const {onChange, delay = 300} = props
+    const {onChange, delay = 800} = props
     const searchData = useSearch()
 
     const [searchTxt, setSearchTxt] = useState<string | any>('')
     const throttled = useRef(debounce(data => onChange!(data), delay))
-    useEffect(() => {
-        searchTxt && throttled.current(searchTxt)
-    }, [searchTxt])
+    useEffect(() => throttled.current(searchTxt), [searchTxt])
 
     const renderClose = () => (<CloseOne onClick={handleClose} theme="outline" size="18" fill="#929292"/>)
 
-    const handleClose = () => setSearchTxt('')
+    const handleClose = () => {
+        setSearchTxt('')
+        onChange!('')
+    }
 
     const handleChangeInput = (e: React.FormEvent<HTMLInputElement>) => setSearchTxt(e.currentTarget.value)
 

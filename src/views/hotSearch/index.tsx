@@ -1,18 +1,27 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {RouteComponentProps} from "react-router-dom";
-import {People} from "@icon-park/react";
-import {getBannerRequest, getHotDetail} from "../../api/Request";
+import {People, Search} from "@icon-park/react";
+import {getBannerRequest, getHotDetail, getSearchKeyWord} from "../../api/Request";
 import CounterContainer from '../../store/container'
 import HotList from './HotList'
 import Scroll from "../../base/Scroll";
 import Transition from '../../base/Transition'
 import SearchInput from '../../base/SearchInput'
+import {joint} from "../../utils/format";
 import './index.scss'
+import lodash from 'lodash'
+
+type QueryType<T> = (query: string, offset: number) => Promise<T>
+
+interface QueryInter {
+    songs?: Array<any>,
+    hasMore?: Boolean,
+    songCount: number
+}
 
 
 const HotSearch: React.FC<RouteComponentProps> = (props) => {
     const {banner, dispatchBanner} = CounterContainer.useContainer()
-
 
     const scrollRef = useRef<any>(null)
 
@@ -36,6 +45,9 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
     }, [])
 
 
+    /**
+     * 热搜榜
+     */
     const [hotData, setHotData] = useState<Array<object>>([])
     useEffect(() => {
         const fetchHot = async () => {
@@ -53,13 +65,47 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
         scrollRef.current.refresh()
     }
 
+
+    /**
+     * 搜索
+     */
+    const [query, setQuery] = useState<string>('')
+    const [queryList, setQueryList] = useState<any[]>([])
+    const offsetRef = useRef<number>(1) // 分页
     const handleChange = (data: string) => {
-        console.log('data', data)
+        if (data) {
+            setQuery(data)
+        } else {
+            setQueryList([])
+        }
+    }
+    useEffect(() => {
+        if (query) {
+            offsetRef.current = 1
+            getQueryRequest(query, offsetRef.current).then((result: QueryInter) => {
+                setQueryList(result.songs as any)
+            })
+        }
+    }, [query])
+    const getQueryRequest: QueryType<any> = (query: string, offset: number) => {
+        return new Promise(async resolve => {
+            const {result} = await getSearchKeyWord(query, offset)
+            resolve(result)
+        })
+    }
+
+
+    const handlePullUp: (e: { x: number, y: number }) => void = async () => {
+        offsetRef.current++;
+        const result = await getQueryRequest(query!, offsetRef.current)
+        // lodash.differenceBy()
+        setQueryList(queryList.concat(result.songs))
     }
 
     const handleSelectItem = (data: object) => {
         console.log(data)
     }
+
 
     // 广告位
     const renderAdvertising = (adData: any) => {
@@ -73,6 +119,7 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
     return (
         <Transition in={sliderFlag} animation='slider-in-left' timeout={1000}>
             <div className='search-page'>
+
                 <div className='search-wrapper'>
                     <SearchInput onChange={handleChange}/>
                     <div className='search-wrapper-cancel' onClick={handleCancel}>取消</div>
@@ -81,12 +128,28 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
                     </div>
                 </div>
 
-                <Scroll ref={scrollRef} className={'search-scroll'}>
-                    {adData ? renderAdvertising(adData) : null}
+                {
+                    queryList && queryList.length === 0 ?
+                        <Scroll ref={scrollRef} className={'search-scroll'}>
+                            {adData ? renderAdvertising(adData) : null}
+                            <div className='hot-title'>热搜榜</div>
+                            <HotList hotData={hotData} onSelect={handleSelectItem}/>
+                        </Scroll> :
+                        <Scroll pullUp={e => handlePullUp(e)}>
+                            {
+                                queryList.map((item: any) => {
+                                    return (
+                                        <div className='query-wrapper' key={item.id}>
+                                            <Search theme="outline" size="18" fill="#b6b4b4"/>
+                                            <div
+                                                className='queryLabel'>{item.name} - {joint(item.artists, 'name')} - {item.alias}</div>
+                                        </div>
+                                    )
+                                })
+                            }
+                        </Scroll>
+                }
 
-                    <div className='hot-title'>热搜榜</div>
-                    <HotList hotData={hotData} onSelect={handleSelectItem}/>
-                </Scroll>
             </div>
         </Transition>
     )

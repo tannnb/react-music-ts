@@ -1,5 +1,5 @@
 import {axiosInstance} from "./config";
-import {BannerInter} from "./types";
+import {BannerInter, SearchKeyWordInter} from "./types";
 
 /**
  * 获取banner
@@ -28,4 +28,18 @@ export const getDefaultSearch = () => {
  */
 export const getHotDetail = () => {
     return axiosInstance.get('/search/hot/detail')
+}
+
+/**
+ *
+ */
+type SearchRequestType = (keywords: string, offset?: number, limit?: number) => Promise<SearchKeyWordInter>
+export const getSearchKeyWord: SearchRequestType = (keywords, offset = 1, limit = 30) => {
+    return axiosInstance.get('/search', {
+        params: {
+            keywords,
+            limit,
+            offset: (offset - 1) * limit
+        }
+    })
 }
