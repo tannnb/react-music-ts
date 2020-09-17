@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {RouteComponentProps} from "react-router-dom";
 import {People, Search} from "@icon-park/react";
+import lodash from 'lodash'
 import {getBannerRequest, getHotDetail, getSearchKeyWord} from "../../api/Request";
 import CounterContainer from '../../store/container'
 import HotList from './HotList'
@@ -9,7 +10,7 @@ import Transition from '../../base/Transition'
 import SearchInput from '../../base/SearchInput'
 import {joint} from "../../utils/format";
 import './index.scss'
-import lodash from 'lodash'
+
 
 type QueryType<T> = (query: string, offset: number) => Promise<T>
 
@@ -18,7 +19,6 @@ interface QueryInter {
     hasMore?: Boolean,
     songCount: number
 }
-
 
 const HotSearch: React.FC<RouteComponentProps> = (props) => {
     const {banner, dispatchBanner} = CounterContainer.useContainer()
@@ -98,11 +98,14 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
     const handlePullUp: (e: { x: number, y: number }) => void = async () => {
         offsetRef.current++;
         const result = await getQueryRequest(query!, offsetRef.current)
-        // lodash.differenceBy()
-        setQueryList(queryList.concat(result.songs))
+        let uniData = lodash.uniqBy(queryList.concat(result.songs), 'id')
+        setQueryList(uniData)
     }
 
     const handleSelectItem = (data: object) => {
+        console.log(data)
+    }
+    const handleListClick = (data: object) => {
         console.log(data)
     }
 
@@ -139,7 +142,8 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
                             {
                                 queryList.map((item: any) => {
                                     return (
-                                        <div className='query-wrapper' key={item.id}>
+                                        <div className='query-wrapper' key={item.id}
+                                             onClick={() => handleListClick(item)}>
                                             <Search theme="outline" size="18" fill="#b6b4b4"/>
                                             <div
                                                 className='queryLabel'>{item.name} - {joint(item.artists, 'name')} - {item.alias}</div>
@@ -149,7 +153,6 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
                             }
                         </Scroll>
                 }
-
             </div>
         </Transition>
     )
