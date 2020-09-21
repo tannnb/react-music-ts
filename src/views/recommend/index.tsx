@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {RouteComponentProps} from "react-router-dom";
-import {getBannerRequest} from "../../api/Request";
+import {getBannerRequest,getHomeBlock} from "../../api/Request";
 import NavBar from "../../base/NavBar";
 import Tabbar from "../../base/Tabbar";
 import Slider from '../../base/Slider'
@@ -70,6 +70,8 @@ const Recommend: React.FC<RecommendType> = props => {
         }
     }, [])
 
+
+
     const [iconData] = useState(quickData)
     const entryRef = useRef<any>(null)
 
@@ -86,6 +88,19 @@ const Recommend: React.FC<RecommendType> = props => {
         categoryDOM.style.width = `${totalWidth}px`
         entryRef.current.refresh()
     }, [iconData,banner])
+
+
+    const [ homePage,setHomePage ] = useState<any>([])
+    useEffect(() => {
+        if(homePage && homePage.length === 0 ) {
+            const getHome = async () => {
+                const result = await getHomeBlock()
+                setHomePage(result.data.blocks)
+            }
+            getHome()
+        }
+    },[])
+
 
     const handleSearch = () => {
         props.history.push('/hotSearch')
@@ -121,6 +136,10 @@ const Recommend: React.FC<RecommendType> = props => {
                                 </div>
                             ))}
                         </Scroll>
+                        <div className='slider_playlist'>
+                            列表
+                            <div></div>
+                        </div>
                     </div>
 
                 </Scroll>

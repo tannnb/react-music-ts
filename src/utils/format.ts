@@ -4,3 +4,4 @@ export function joint(arr: string[], key: string | any, type: string = '/'): str
     }
     return ''
 }
+

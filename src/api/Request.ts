@@ -43,3 +43,13 @@ export const getSearchKeyWord: SearchRequestType = (keywords, offset = 1, limit 
         }
     })
 }
+
+
+/**
+ * 首页-发现
+ */
+export const getHomeBlock:() => Promise<any> = () => {
+    return axiosInstance.get('/homepage/block/page')
+}
+
+

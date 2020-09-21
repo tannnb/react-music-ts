@@ -1,12 +1,18 @@
-import React, {forwardRef, useEffect, useImperativeHandle, useRef, useState} from 'react'
+import React, {forwardRef, useEffect, useImperativeHandle, useRef} from 'react'
 import BScroll, {BScrollInstance} from '@better-scroll/core'
+
 
 let scrollStyle = {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
 }
-type RefProps = {}
+
+export interface RefProps {
+    refresh(): void;
+    getBSInstance(): void;
+    getBSWrapper(): void;
+}
 
 interface ScrollProps {
     style?: object;
@@ -21,9 +27,10 @@ interface ScrollProps {
     bounceTop?: boolean;
     bounceBottom?: boolean;
     stopPropagation?: boolean;
-    className?:any;
+    className?: any;
     children: React.ReactNode
 }
+
 
 const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
     const {
@@ -38,15 +45,15 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
         className
     } = props
 
-    const [scroll, setScroll] = useState<BScrollInstance | null>(null)
-    const scrollContentRef = useRef<HTMLDivElement | null>(null)
-    const scrollInternalRef = useRef(null)
+    const BScrollRef = useRef<BScrollInstance | null>(null)
+    const scrollContentRef = useRef<HTMLDivElement>(null)
+    const scrollInternalRef = useRef<HTMLDivElement>(null)
 
     /**
      * 初始化BScroll实例
      */
     useEffect(() => {
-        let scrolls = new BScroll(scrollContentRef.current!, {
+        BScrollRef.current = new BScroll(scrollContentRef.current!, {
             scrollX: direction === 'horizontal',
             scrollY: direction === 'vertical',
             probeType: 3,
@@ -54,93 +61,87 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
             bounce: {
                 top: bounceTop,
                 bottom: bounceBottom,
-            },
+            }
         })
-        setScroll(scrolls)
         return () => {
-            setScroll(null)
+            BScrollRef.current = null
         }
-    }, [setScroll])
+    }, [])
+
 
     /**
-     * 刷新
+     * 自动刷新
      */
     useEffect(() => {
-        if (refresh && scroll) {
-            scroll.refresh()
+        if (refresh && BScrollRef.current) {
+            BScrollRef.current.refresh()
         }
     })
 
-    /**
-     * 上拉
-     */
+
     useEffect(() => {
-        if (!pullUp || !scroll) {
+        if (!pullUp || !BScrollRef.current) {
             return
         }
-        scroll.on('scrollEnd', (e: MouseEvent) => {
-            if (scroll.y <= scroll.maxScrollY + 100) {
+        let BSInstance = BScrollRef.current
+        BSInstance.on('scrollEnd', (e: MouseEvent) => {
+            if (BSInstance.y <= BSInstance.maxScrollY + 100) {
                 pullUp(e)
             }
         })
-
         return () => {
-            scroll.off('scrollEnd')
+            BScrollRef.current?.off('scrollEnd')
         }
-    }, [scroll, pullUp])
+    }, [ pullUp])
 
-    /**
-     * 下拉
-     */
+
     useEffect(() => {
-        if (!pullDown || !scroll) {
+        if (!pullDown || !BScrollRef.current) {
             return
         }
-        scroll.on('touchEnd', (e: MouseEvent) => {
-            // 判断用户的下拉动作
-            e.y > 50 && pullDown(e)
+        let BSInstance = BScrollRef.current
+        BSInstance.on('touchEnd', (e: MouseEvent) => {
+            e.y > 100 && pullDown(e)
         })
         return () => {
-            scroll.off('touchEnd')
+            BScrollRef.current?.off('touchEnd')
         }
-    }, [scroll, pullDown])
+    }, [ pullDown])
 
-    /**
-     * 监听滚动
-     */
+
     useEffect(() => {
-        if (!onScroll || !scroll) {
+        if (!onScroll || !BScrollRef.current) {
             return
         }
-        scroll.on('scroll', (e: MouseEvent) => {
+        let BSInstance = BScrollRef.current
+        BSInstance.on('scroll', (e: MouseEvent) => {
             onScroll(e)
         })
         return () => {
-            scroll.off('scroll')
+            BScrollRef.current?.off('scroll')
         }
-    }, [scroll, onScroll])
+    }, [ onScroll])
 
-    /**
-     * 返回可操作对象
-     */
+
     useImperativeHandle(ref, () => ({
-        refresh() {
-            if (scroll) {
-                scroll.refresh()
-                scroll.scrollTo(0, 0)
+        refresh(): any {
+            if (BScrollRef.current) {
+                BScrollRef.current.refresh()
+                BScrollRef.current.scrollTo(0, 0)
             }
         },
-        getBSInstance() {
-            if(scroll) return scroll
+        getBSInstance(): any {
+            return BScrollRef
         },
-        getBSWrapper() {
-            if(scrollInternalRef) return scrollInternalRef
+        getBSWrapper(): any {
+            return scrollInternalRef
         },
     }))
 
+
     return (
         <div style={scrollStyle} ref={scrollContentRef} className={className}>
-            <div ref={scrollInternalRef}>{props.children}</div>
+            <div ref={scrollInternalRef} className='scrollInner'>{props.children}</div>
         </div>
     )
 })

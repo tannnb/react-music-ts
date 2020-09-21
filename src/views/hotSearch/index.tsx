@@ -5,7 +5,7 @@ import lodash from 'lodash'
 import {getBannerRequest, getHotDetail, getSearchKeyWord} from "../../api/Request";
 import CounterContainer from '../../store/container'
 import HotList from './HotList'
-import Scroll from "../../base/Scroll";
+import Scroll, {RefProps} from "../../base/Scroll";
 import Transition from '../../base/Transition'
 import SearchInput from '../../base/SearchInput'
 import {joint} from "../../utils/format";
@@ -23,9 +23,9 @@ interface QueryInter {
 const HotSearch: React.FC<RouteComponentProps> = (props) => {
     const {banner, dispatchBanner} = CounterContainer.useContainer()
 
-    const scrollRef = useRef<any>(null)
+    const scrollRef = useRef<RefProps>(null)
 
-    const [sliderFlag, setSliderFlag] = useState<Boolean | any>(false)
+    const [sliderFlag, setSliderFlag] = useState<boolean>(false)
     useEffect(() => {
         setSliderFlag(true)
     }, [])
@@ -62,7 +62,7 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
         props.history.goBack()
     }
     const handleLoadImg = () => {
-        scrollRef.current.refresh()
+        scrollRef.current!.refresh()
     }
 
 
@@ -110,6 +110,8 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
     }
 
 
+
+
     // 广告位
     const renderAdvertising = (adData: any) => {
         return (
@@ -133,7 +135,7 @@ const HotSearch: React.FC<RouteComponentProps> = (props) => {
 
                 {
                     queryList && queryList.length === 0 ?
-                        <Scroll ref={scrollRef} className={'search-scroll'}>
+                        <Scroll ref={scrollRef}  className={'search-scroll'}>
                             {adData ? renderAdvertising(adData) : null}
                             <div className='hot-title'>热搜榜</div>
                             <HotList hotData={hotData} onSelect={handleSelectItem}/>
