@@ -1,11 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {RouteComponentProps} from "react-router-dom";
-import {getBannerRequest,getHomeBlock} from "../../api/Request";
+import {getBannerRequest, getHomeBlock} from "../../api/Request";
+import {useHorizontalWidth} from "../../hook/useHorizontalWidth";
 import NavBar from "../../base/NavBar";
 import Tabbar from "../../base/Tabbar";
 import Slider from '../../base/Slider'
 import Scroll from '../../base/Scroll'
 import QuickEntry from "./QuickEntry";
+import RecommendList from './RecommendList'
 import './index.scss'
 import CounterContainer from '../../store/container'
 
@@ -61,7 +63,7 @@ const Recommend: React.FC<RecommendType> = props => {
     const {banner, dispatchBanner} = CounterContainer.useContainer()
 
     useEffect(() => {
-        if(banner && banner.length === 0) {
+        if (banner && banner.length === 0) {
             const getBanner = async () => {
                 let {banners} = await getBannerRequest() as any
                 dispatchBanner(banners)
@@ -71,36 +73,28 @@ const Recommend: React.FC<RecommendType> = props => {
     }, [])
 
 
-
     const [iconData] = useState(quickData)
     const entryRef = useRef<any>(null)
 
     /**
      * 计算横向滚动宽度
      */
+    const {setHorizontalWidth} = useHorizontalWidth()
     useEffect(() => {
-        let categoryDOM = entryRef.current?.getBSWrapper().current
-        let tagElements = categoryDOM.querySelectorAll('.enterItem')
-        let totalWidth = 10
-        Array.from(tagElements).forEach((ele: any) => {
-            totalWidth += ele.offsetWidth
-        })
-        categoryDOM.style.width = `${totalWidth}px`
-        entryRef.current.refresh()
-    }, [iconData,banner])
+        setHorizontalWidth(entryRef)
+    }, [iconData])
 
 
-    const [ homePage,setHomePage ] = useState<any>([])
+    const [recommend, setRecommend] = useState<any>(null)
     useEffect(() => {
-        if(homePage && homePage.length === 0 ) {
+        if (!recommend) {
             const getHome = async () => {
                 const result = await getHomeBlock()
-                setHomePage(result.data.blocks)
+                setRecommend(result.data.blocks[0])
             }
             getHome()
         }
-    },[])
-
+    }, [])
 
     const handleSearch = () => {
         props.history.push('/hotSearch')
@@ -114,7 +108,7 @@ const Recommend: React.FC<RecommendType> = props => {
 
     const handleClickLink = (e: React.MouseEvent) => {
         let bsScroll = entryRef.current!.getBSInstance()
-        bsScroll.scrollToElement(e.currentTarget, 500, true)
+        bsScroll.current.scrollToElement(e.currentTarget, 500, true)
     }
 
     return (
@@ -137,8 +131,7 @@ const Recommend: React.FC<RecommendType> = props => {
                             ))}
                         </Scroll>
                         <div className='slider_playlist'>
-                            列表
-                            <div></div>
+                            {recommend && <RecommendList data={recommend} />}
                         </div>
                     </div>
 

@@ -39,6 +39,7 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
         refresh = true,
         bounceTop = true,
         bounceBottom = true,
+        stopPropagation = true,
         pullUp,
         pullDown,
         onScroll,
@@ -57,7 +58,8 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
             scrollX: direction === 'horizontal',
             scrollY: direction === 'vertical',
             probeType: 3,
-            click: click,
+            click,
+            stopPropagation,
             bounce: {
                 top: bounceTop,
                 bottom: bounceBottom,
@@ -133,11 +135,13 @@ const Scroll = forwardRef<RefProps, ScrollProps>((props, ref) => {
         getBSInstance(): any {
             return BScrollRef
         },
+        getScrollRef() {
+            return scrollContentRef
+        },
         getBSWrapper(): any {
             return scrollInternalRef
         },
     }))
-
 
     return (
         <div style={scrollStyle} ref={scrollContentRef} className={className}>
