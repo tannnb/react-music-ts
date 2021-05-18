@@ -72,7 +72,6 @@ const Recommend: React.FC<RecommendType> = props => {
         }
     }, [])
 
-
     const [iconData] = useState(quickData)
     const entryRef = useRef<any>(null)
 
