@@ -1,13 +1,19 @@
 import React from 'react';
-import {renderRoutes} from 'react-router-config';
-import {BrowserRouter} from 'react-router-dom';
-import routes from './routers'
+import {useSelector, useDispatch} from 'react-redux';
+import {increment, getCurrentValue} from './store/playSlice';
 
-const App: React.FC = () => {
+function App() {
+    const count = useSelector(getCurrentValue);
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        dispatch(increment(100))
+    }
     return (
-        <BrowserRouter>
-            {renderRoutes(routes)}
-        </BrowserRouter>
+        <div className="App">
+            app-{count}
+            <button onClick={() => handleClick()}>点击</button>
+        </div>
     );
 }
 

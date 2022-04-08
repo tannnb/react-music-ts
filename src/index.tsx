@@ -1,21 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Provider from './store'
+import {Provider} from 'react-redux';
+import store from './store';
 import ErrorBoundary from './base/ErrorBoundary'
-import * as serviceWorker from './serviceWorker';
+import reportWebVitals from './reportWebVitals';
 
 import 'normalize.css'
-import './assets/style/index.scss'
+import './assets/style/index.scss';
 
 ReactDOM.render(
     <ErrorBoundary>
-        <Provider>
+        <Provider store={store}>
             <App/>
         </Provider>
-    </ErrorBoundary>
-    ,
+    </ErrorBoundary>,
     document.getElementById('root')
 );
 
-serviceWorker.unregister();
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
