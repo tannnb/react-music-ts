@@ -1,8 +1,10 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import { RootState } from './index'
+import {RootState} from './index'
+
 interface playSliceProps {
     value: number;
 }
+
 const initialState: playSliceProps = {
     value: 0,
 };

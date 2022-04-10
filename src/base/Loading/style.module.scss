@@ -1,0 +1,34 @@
+@import "src/assets/style/variables";
+
+.LoadingWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  .loading {
+    width: 30px;
+    height: 30px;
+    border: 2px solid $themeColor;
+    border-top-color: rgba(0, 0, 0, 0.1);
+    border-right-color: rgba(0, 0, 0, 0.1);
+    border-bottom-color: rgba(0, 0, 0, 0.1);
+    border-radius: 100%;
+    animation: circle infinite 0.75s linear;
+  }
+  .LoadingText {
+    color: $themeColor;
+    padding-left: 20px;
+    font-size: 17px;
+  }
+}
+
+
+@keyframes circle {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

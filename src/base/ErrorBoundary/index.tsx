@@ -14,7 +14,7 @@ class ErrorBoundary extends Component<any, ErrorProps> {
 
     static getDerivedStateFromError(error: string) {
         console.log('错误信息:', error)
-        window.open(`http://stackoverflow.com/search?q=${error}`);
+        // window.open(`http://stackoverflow.com/search?q=${error}`);
         return {error}
     }
 

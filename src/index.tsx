@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+// @ts-ignore
+import ReactDOM from "react-dom/client";
 import App from './App';
 import {Provider} from 'react-redux';
 import store from './store';
@@ -9,13 +10,13 @@ import reportWebVitals from './reportWebVitals';
 import 'normalize.css'
 import './assets/style/index.scss';
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(
     <ErrorBoundary>
         <Provider store={store}>
             <App/>
         </Provider>
-    </ErrorBoundary>,
-    document.getElementById('root')
+    </ErrorBoundary>
 );
 
 // If you want to start measuring performance in your app, pass a function
