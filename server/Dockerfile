@@ -1,16 +1,11 @@
-FROM node:12.18.3
+FROM node:lts-alpine
 
-USER root
+WORKDIR /app
+COPY . /app
 
-WORKDIR /home/qqmusic
+RUN npm config set registry "https://registry.npmmirror.com/" \
+    && npm install -g npm husky \
+    && npm install --production
 
-COPY . .
-
-VOLUME ["./data","./bin"]
-
-RUN npm config set registry https://registry.npmmirror.com \
-    && npm install && npm install cross-env -g
-
-EXPOSE 80
-
-CMD ["cross-env","PORT=80","node","/home/qqmusic/bin/www"]
+EXPOSE 3000
+CMD ["node", "app.js"]
