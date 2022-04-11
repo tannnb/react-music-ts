@@ -1,24 +1,14 @@
-import axios, {AxiosRequestConfig, ResponseType, AxiosInstance, AxiosError, AxiosResponse} from 'axios'
+import axios, {AxiosRequestConfig, AxiosInstance, AxiosError, AxiosResponse} from 'axios'
 
-const TIMEOUT = 50000
 const SERVER = '';
-
-interface IDictionary<T> {
-    JSON: T
-}
-
-const MIME_TYPE: IDictionary<ResponseType> = {
-    JSON: 'json',
-}
-
 const handleResponse = (config: AxiosResponse) => config.data
 const handleError = (error: AxiosError) => Promise.reject(error)
 const createInstance = () => {
     const instance = axios.create({
         baseURL: SERVER,
-        timeout: TIMEOUT,
+        timeout: 50000,
         withCredentials: true,
-        responseType: MIME_TYPE.JSON,
+        responseType: 'json',
     })
     instance.interceptors.response.use(handleResponse, handleError)
     instance.interceptors.response.use(handleResponse, handleError)
